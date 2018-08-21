@@ -1,0 +1,264 @@
+html {
+  font-size: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial,
+    sans-serif;
+
+  line-height: 1.5;
+  
+  color:#797677;
+  font-size:16px;
+}
+
+body a {
+	color:#4968D8;
+	text-decoration:underline;
+	cursor:pointer;
+}
+
+body a:hover {
+	color: orange;
+}
+
+h1 {
+   font-size:24px;
+   margin:0;
+   color:#505050;
+}
+
+header {
+	margin: 0 auto;
+	width:80%;
+	background-color:#efefef;
+	padding: 10px;
+}
+
+header a {
+	margin-right:20px;
+	font-size: 16px;
+}
+
+
+main {
+	margin: 0 auto;
+	width:80%;
+	background-color:#fbfbfb;
+	
+	border-bottom: 1px solid grey;
+	border-top: 1px solid grey;
+	padding: 10px;
+}
+
+button:disabled {
+  opacity: 0.5;
+}
+
+.note {
+	background-color:#ffffff;
+	padding: 0;
+	border: 1px solid #979CA3;
+	width:245px;
+	height:335px;
+	float:left;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	font-size: 14px;
+
+	box-shadow:  2px 2px 4px rgba(0,0,0,0.5); 
+}
+
+.note .num {
+	position:absolute;
+	margin-left:2px;
+	margin-top:10px;
+	font-size: 11px;
+	color: black;
+	background-color: #ADCEFF;
+	border-radius: 4px;
+	padding:4px;
+}
+
+.note .header {
+	background-color:#DEEBFF;
+	padding:10px;
+	text-align:center;
+}
+
+.note .text {
+    padding:5px;
+	width:100%;
+	height:240px;
+	overflow: auto;
+}
+
+.note .tags {
+    padding:5px;
+	width:100%;
+	height:50px;
+	overflow: auto;
+	background-color:#DEEBFF;
+	line-height: 21px;
+}
+
+.note .tag {
+	font-size: 12px;
+	color: black;
+	background-color: #BFBCAB;
+	cursor:pointer;
+	border-radius: 3px;
+	padding:2px 5px 2px 5px;
+	margin-right: 5px;
+	
+}
+
+.note .tag:hover {
+	background-color: orange;
+}
+
+.note-clear {
+	background-color:#ffffff;
+	padding: 1px;
+	width:1px;
+	height:1px;
+	clear:both;
+	visibility:hidden;
+}
+
+.notes {
+	margin-top:20px;
+}
+
+.pages {
+
+    margin-top:20px;
+	margin-bottom:20px;
+	
+	text-align:center;
+	word-spacing: 10px;
+	font-size:18px;
+	color:#778499;
+}
+.pages .page {
+	cursor:pointer;
+	margin-right:10px;
+	width: 35px;
+    height: 35px;
+	line-height: 35px;
+	float:left
+}
+
+.pages .page:hover {
+	color:orange;
+}
+
+
+.pages .c-page {
+	cursor:default;
+	color:#EEF0FA;
+	background-color: #0052CC;
+	margin-right:10px;
+	width: 35px;
+    height: 35px;
+	line-height: 35px;
+	border-radius:50%;
+	float:left;
+}
+
+
+.notepage {
+	background-color:#ffffff;
+	padding: 0;
+	border: 1px solid #979CA3;
+	width:95%;
+	margin: 0 auto;
+	font-size: 14px;
+
+	box-shadow:  2px 2px 4px rgba(0,0,0,0.5); 
+}
+
+.notepage .num {
+	position:absolute;
+	margin-left:5px;
+	margin-top:15px;
+	font-size: 14px;
+	color: black;
+	background-color: #ADCEFF;
+	border-radius: 4px;
+	padding:4px;
+}
+
+.notepage .header {
+	background-color:#DEEBFF;
+	padding:15px;
+	text-align:center;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.notepage .text {
+    padding:10px;
+    font-size:16px;
+}
+
+.notepage .tags {
+    padding:10px;
+	width:100%;
+    background: linear-gradient(to top, white, #f0f8ff);
+	line-height: 21px;
+}
+
+.notepage .tag {
+	font-size: 14px;
+	color: black;
+	background-color: #BFBCAB;
+	cursor:pointer;
+	border-radius: 3px;
+	padding:2px 5px 2px 5px;
+	margin-right: 5px;
+	
+}
+
+.notepage .tag:hover {
+	background-color: orange;
+}
+
+.notepage button {
+    display:block;
+    margin-top:30px;
+    padding-top:3px;
+    padding-bottom:3px;
+    padding-left:6px;
+    padding-right:6px;
+    cursor:pointer;
+    font-size:14px;
+}
+
+
+.alphabet {  padding: 10px;}
+.alphabet a { cursor:pointer; margin-right:10px;text-decoration: underline; }
+.alphabet ul {
+	padding-left:20px;
+}
+.alphabet .col1 { float: left; width: 250px; }
+.alphabet .col2 { float: left; width: 250px;}
+.alphabet .col3 { float: left; width: 250px;}
+.alphabet .col-clear { width:1px;height:1px; clear:both;}
+
+
+.pull-right { float: left; }
+.pull-left { float: right;}
+.pull { overflow: hidden; }
+
+
+.page-form input, textarea {
+	width:500px;
+}
+
+.page-form button {
+	cursor: pointer;
+	margin-top: 10px;
+}
