@@ -129,7 +129,7 @@ export const getNoteAsync = (id) => {
 	
     return $.ajax({
 	  type: "GET",
-	  url: "/api/note.json",
+	  url: "/api/notes/one",
 	  data: {
 		id: id
 	  },
@@ -184,7 +184,7 @@ export const changePageTag = (id, page) => {
 	
     return $.ajax({
 	  type: "GET",
-	  url: "/api/tag"+page+".json",
+	  url: "/api/notes/tag",
 	  data: {
 		id: id,
 		page: page
@@ -212,7 +212,7 @@ export const removeNote = (id, callback) => {
 	
     return $.ajax({
 	  type: "DELETE",
-	  url: "/api/ok.json",
+	  url: "/api/delete",
 	  data: {
 		id: id
 	  },
@@ -239,8 +239,8 @@ export const newNote = (title, text, tags, callback) => {
     });
 	
     return $.ajax({
-	  type: "GET",
-	  url: "/api/ok.json",
+	  type: "POST",
+	  url: "/api/notes/new",
 	  data: {
 		title: title,
         text: text,
@@ -271,8 +271,8 @@ export const updateNote = (id, title, text, tags, callback) => {
     });
 	
     return $.ajax({
-	  type: "GET",
-	  url: "/api/ok.json",
+	  type: "POST",
+	  url: "/api/notes/update",
 	  data: {
         id: id,
 		title: title,

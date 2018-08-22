@@ -5,10 +5,14 @@ var bodyParser = require('body-parser');
 var http = require("http");
 
 
+var unirest = require('unirest')
+
+var HOST  = 'localhost';
+var PORT = 8000;
+
+
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-
-
 
 // Path to our public directory
 var pub = __dirname + '/build';
@@ -43,41 +47,56 @@ app.use(function (req, res, next) {
 
 //--------------------------------------------------------------------------------------------------------------------------------
 
-app.get('/api/notes', function(req, resx) { 
-	   
-	var options = {
-	  host: 'localhost',
-	  port: 8000,
-	  //path: '/upload',
-	 // method: 'POST'
-	 
-	  path: '/api/notes',
-	  method: 'GET'
-	};
+function getREST(route) {
 
-	var req = http.request(options, function(res) {
-	  console.log('STATUS: ' + res.statusCode);
-	  console.log('HEADERS: ' + JSON.stringify(res.headers));
-	  res.setEncoding('utf8');
-	  res.on('data', function (chunk) {
-		//console.log('BODY: ' + chunk);
-		
-		 resx.send(chunk);
-		
-		
-	  });
-	});
+	app.get(route, function(req, res) { 
 
-	req.on('error', function(e) {
-	  console.log('problem with request: ' + e.message);
-	});
+		// GET a resource
+		unirest.get('http://'+HOST+':'+PORT+route)
+		  .query(req.query)
+		  .end(function(res2) {
+			if (res2.error) {
+			  console.log('Error: ', res2.error)
+			  
+			  res.send('{"msg": "Error: problem with request: '+res2.error+'"}');
+			} else {
+			  res.send(res2.body);
+			}
+		  });
+		
+	});	
+}
 
-	// write data to request body
-	req.write('data\n');
-	req.write('data\n');
-	req.end();
-			
- });
+function postREST(route) {
+	
+	app.post(route, function(req, res) { 
+
+		// POST a form with an attached file
+		unirest.post('http://'+HOST+':'+PORT+route)
+		  .query(req.body)
+		  .end(function(res2) {
+			if (res.error) {
+			  console.log('Error: ', res2.error)
+			  
+			  res.send('{"msg": "Error: problem with request: '+res2.error+'"}');
+			} else {
+			  res.send(res2.body);
+			}
+		  });
+  
+	});	
+  
+}
+//--------------------------------------------------------------------------------------------------------------------------------
+
+getREST('/api/notes');
+getREST('/api/notes/tag');
+getREST('/api/tags');
+getREST('/api/notes/one');
+
+postREST('/api/notes/new');
+postREST('/api/notes/post');
+
 
 app.listen(3000);
 console.log('Listening on port 3000');
