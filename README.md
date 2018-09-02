@@ -29,7 +29,7 @@ yarn start
 ## Сборка
 
 ```bash
-yarn start
+yarn build
 ```
 
 ## Скриншот
