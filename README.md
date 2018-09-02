@@ -1,5 +1,28 @@
-# jnotes-client
+# react-redux-notes
 
-Клентское приложение JNotes
+Заметки на React + Redux
 
-В разработке
+Backend на json-заглушках
+
+## Установка
+
+Cтавим yarn, если не установлен
+```bash
+npm install --global yarn
+```
+
+Инсталяция приложения
+```bash
+cd react-redux-notes
+
+yarn
+```
+
+## Запуск dev-сервера
+
+```bash
+yarn start
+```
+
+## Скриншот
+![Скриншот](screenshot.png)
