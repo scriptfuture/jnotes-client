@@ -1,8 +1,10 @@
-# react-redux-notes
+# jnotes-client
 
 Заметки на React + Redux
 
-Backend на json-заглушках
+На основе ![react-redux-notes](https://github.com/scriptfuture/react-redux-notes)
+
+Веб-клиент для rest-api ![jnotes](https://github.com/scriptfuture/jnotes)
 
 ## Установка
 
@@ -13,12 +15,18 @@ npm install --global yarn
 
 Инсталяция приложения
 ```bash
-cd react-redux-notes
+cd jnotes-client
 
 yarn
 ```
 
 ## Запуск dev-сервера
+
+```bash
+yarn start
+```
+
+## Сборка
 
 ```bash
 yarn start
