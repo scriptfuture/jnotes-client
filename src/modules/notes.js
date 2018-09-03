@@ -137,7 +137,7 @@ export const getNoteAsync = (id) => {
 
 		  dispatch({
 			type: GETNOTE,
-			data: result
+			data: JSON.parse(result)
 		  });
 		  
 	  }
@@ -193,7 +193,7 @@ export const changePageTag = (id, page) => {
 
 		  dispatch({
 			type: GETTAG,
-			data: result,
+			data: JSON.parse(result),
 		    id: id,
 		    page: page
 		  });
@@ -211,8 +211,8 @@ export const removeNote = (id, callback) => {
     });
 	
     return $.ajax({
-	  type: "DELETE",
-	  url: "/api/delete",
+	  type: "GET",
+	  url: "/api/notes/delete",
 	  data: {
 		id: id
 	  },
@@ -220,11 +220,11 @@ export const removeNote = (id, callback) => {
 
 		  dispatch({
 			type: REMOVENOTE,
-			data: result,
+			data: JSON.parse(result),
 		    id: id
 		  });
 		  
-		  callback(result);
+		  callback(JSON.parse(result));
 		  
 	  }
 	});
@@ -250,13 +250,13 @@ export const newNote = (title, text, tags, callback) => {
 
 		  dispatch({
 			type: NEWNOTE,
-			data: result,
+			data: JSON.parse(result),
             title: title,
             text: text,
             tags: tags
 		  });
 		  
-		  callback(result);
+		  callback(JSON.parse(result));
 		  
 	  }
 	});
@@ -283,14 +283,14 @@ export const updateNote = (id, title, text, tags, callback) => {
 
 		  dispatch({
 			type: UPDATENOTE,
-			data: result,
+			data: JSON.parse(result),
             id: id,
             title: title,
             text: text,
             tags: tags
 		  });
 		  
-		  callback(result);
+		  callback(JSON.parse(result));
 		  
 	  }
 	});

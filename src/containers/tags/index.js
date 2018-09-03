@@ -20,7 +20,8 @@ class Tags extends Component {
   } 
   
   getAlphabetizing(arr) {
-	  let alphabet = ["А","Б","В","Г","Д","Е","Ё","Ж","З","И","К","Л","М","Н","О","П","Р","С","Т","У","Ф","Х","Ц","Ч","Ш","Щ","Э","Ю","Я","[0-9]"];
+	  let alphabet = ["А","Б","В","Г","Д","Е","Ё","Ж","З","И","К","Л","М","Н","О","П","Р","С","Т","У","Ф","Х","Ц","Ч","Ш","Щ","Э","Ю","Я","[0-9]",
+                      "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
 	  let alphabetResult = {};
 	  
 	  for(let i in alphabet) {
@@ -53,6 +54,11 @@ class Tags extends Component {
 	      cols[0] = ["А","Б","В","Г","Д","Е","Ё","Ж","З","И"];
 	      cols[1] = ["К","Л","М","Н","О","П","Р","С","Т","У"];
 		  cols[2] = ["Ф","Х","Ц","Ч","Ш","Щ","Э","Ю","Я","[0-9]"];
+          
+	      cols[3] = ["A","B","C","D","E","F","G","H","I"];
+	      cols[4] = ["J","K","L","M","N","O","P","Q","R"];
+		  cols[5] = ["S","T","U","V","W","X","Y","Z"];
+
 		  
 	  let resultcol = [];	  
 		  
@@ -60,9 +66,9 @@ class Tags extends Component {
 			  if(typeof atags[cols[numCol][i]] !== "undefined") resultcol.push({"letter": cols[numCol][i], "tags": atags[cols[numCol][i]]});
 		  }
 		  
-		console.log(atags);
+		//console.log(atags);
 		
-		console.log(resultcol)
+		//console.log(resultcol)
 		
 	
 	  return resultcol.map((t) =>
@@ -93,6 +99,13 @@ class Tags extends Component {
    <div className="col1">{this.getTagsColomn(0, atags)}</div>
    <div className="col2">{this.getTagsColomn(1, atags)}</div>
    <div className="col3">{this.getTagsColomn(2, atags)}</div>
+   <div className="col-clear"></div>
+  </div>
+  
+  <div className="alphabet">
+   <div className="col1">{this.getTagsColomn(3, atags)}</div>
+   <div className="col2">{this.getTagsColomn(4, atags)}</div>
+   <div className="col3">{this.getTagsColomn(5, atags)}</div>
    <div className="col-clear"></div>
   </div>
 			
