@@ -40,7 +40,7 @@ class Tag extends Component {
 	  return notes.map((note) =>
 			<div className="note" key={note.id}>
 			   <div className="num">{note.id}</div>
-			   <div className="header"><a onClick={(e) => this.props.openNote(note.id)}>{note.title}</a></div>
+			   <div className="header"><a href="" onClick={(e) => {e.preventDefault(); return this.props.openNote(note.id)}}>{note.title}</a></div>
 			
 			   <div className="text">{note.text}</div>
 			   <div className="tags">{this.getTags(note.tags)}</div>

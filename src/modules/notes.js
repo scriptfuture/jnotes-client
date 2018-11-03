@@ -1,5 +1,7 @@
 import $ from "jquery";
 
+import {getUrl, getMethod} from "./../stubs";
+
 export const GETNOTE_REQUESTED = 'notes/GETNOTE_REQUESTED'
 export const GETNOTE = 'notes/GETNOTE'
 
@@ -18,6 +20,9 @@ export const NEWNOTE = 'notes/NEWNOTE_REQUESTED'
 export const UPDATENOTE_REQUESTED = 'notes/UPDATENOTE_REQUESTED'
 export const UPDATENOTE = 'notes/UPDATENOTE_REQUESTED'
 
+export const SHOW_ERROR = 'notes/SHOW_ERROR'
+export const HIDE_ERROR = 'notes/HIDE_ERROR'
+
 const initialState = {
   notes: [],
   totalPages: 1,
@@ -29,30 +34,55 @@ const initialState = {
   currentPage: 1,
   isRemove: false,
   isNew: false,
-  isUpdate: false
+  isUpdate: false,
+  isLoad: false,
+  isError: false,
+  errors: []
 }
 
 export default (state = initialState, action) => {
 	
   switch (action.type) {
+    case SHOW_ERROR:
+      return {
+        ...state,
+        errors: action.errors,
+		isError: true,
+        isLoad: false
+        
+      }
+
+    case HIDE_ERROR:
+      return {
+        ...state,
+        errors: [],
+		isError: false,
+        isLoad: false
+      }
+      
+      
     case GETNOTE_REQUESTED:
       return {
         ...state,
 		isNote: true,
-        note: action.data
+        note: action.data,
+        isLoad: true
+        
       }
 
     case GETNOTE:
       return {
         ...state,
 		isNote: false,
-        note: action.data
+        note: action.data,
+        isLoad: false
       }
 	  
     case CHANGEPAGE_REQUESTED:
       return {
         ...state,
-        currentPage: action.page
+        currentPage: action.page,
+        isLoad: true
       }
 
     case CHANGEPAGE:
@@ -60,14 +90,16 @@ export default (state = initialState, action) => {
         ...state,
         currentPage: action.page,
         notes: action.data.notes,
-		totalPages: action.data.totalPages
+		totalPages: action.data.totalPages,
+        isLoad: false
       }
       
       
     case GETTAG_REQUESTED:
       return {
         ...state,
-		isTag: true
+		isTag: true,
+        isLoad: true
       }
 
     case GETTAG:
@@ -77,43 +109,50 @@ export default (state = initialState, action) => {
         notes: action.data.notes,
 		totalPages: action.data.totalPages,
 		isTag: false,
-        tag: action.data.tag
+        tag: action.data.tag,
+        isLoad: false
       }
 	  
     case REMOVENOTE_REQUESTED:
       return {
         ...state,
-		isRemove: false
+		isRemove: false,
+        isLoad: true
       }
 
     case REMOVENOTE:
       return {
         ...state,
-        isRemove: true
+        isRemove: true,
+        isLoad: false
       }
       
     case NEWNOTE_REQUESTED:
       return {
         ...state,
-		isNew: false
+		isNew: false,
+        isLoad: true
       }
 
     case NEWNOTE:
       return {
         ...state,
-        isNew: true
+        isNew: true,
+        isLoad: false
       }
       
     case UPDATENOTE_REQUESTED:
       return {
         ...state,
-		isUpdate: false
+		isUpdate: false,
+        isLoad: true
       }
 
     case UPDATENOTE:
       return {
         ...state,
-        isUpdate: true
+        isUpdate: true,
+        isLoad: false
       }
 
     default:
@@ -126,22 +165,31 @@ export const getNoteAsync = (id) => {
     dispatch({
       type: GETNOTE_REQUESTED
     });
-	
-    return $.ajax({
+
+    
+	return $.ajax({
+      dataType: "json",
 	  type: "GET",
-	  url: "/api/notes/one",
+	  url: getUrl("/notes/one"),
 	  data: {
 		id: id
 	  },
-	  success: function( result ) {
-
+    }).done(function( result ) {
+          
 		  dispatch({
 			type: GETNOTE,
-			data: JSON.parse(result)
+			data: result
 		  });
-		  
-	  }
+
+	}).fail(function(jqXHR, textStatus) {
+        
+	    dispatch({
+	        type: SHOW_ERROR,
+			errors: [{code: jqXHR.status, text: ""}]
+		});
+
 	});
+    
 	
   }
 }
@@ -155,20 +203,27 @@ export const changePageNotes = (page) => {
     });
 	
 	return $.ajax({
+      dataType: "json",
 	  type: "GET",
-	  url: "/api/notes",
+	  url: getUrl("/notes"),
 	  data: {
 		page: page
-	  },
-	  success: function( result ) {
-
+      }
+    }).done(function( result ) {
+          
 		  dispatch({
 			type: CHANGEPAGE,
-			data: JSON.parse(result),
+			data: result,
 			page: page
 		  });
-		  
-	  }
+
+	}).fail(function(jqXHR, textStatus) {
+        
+	    dispatch({
+	        type: SHOW_ERROR,
+			errors: [{code: jqXHR.status, text: ""}]
+		});
+
 	});
 	
  
@@ -181,24 +236,32 @@ export const changePageTag = (id, page) => {
     dispatch({
       type: GETTAG_REQUESTED
     });
-	
-    return $.ajax({
+    
+    
+	return $.ajax({
+      dataType: "json",
 	  type: "GET",
-	  url: "/api/notes/tag",
+	  url: getUrl("/notes/tag"),
 	  data: {
 		id: id,
 		page: page
 	  },
-	  success: function( result ) {
-
+    }).done(function( result ) {
+          
 		  dispatch({
 			type: GETTAG,
-			data: JSON.parse(result),
+			data: result,
 		    id: id,
 		    page: page
 		  });
-		  
-	  }
+
+	}).fail(function(jqXHR, textStatus) {
+        
+	    dispatch({
+	        type: SHOW_ERROR,
+			errors: [{code: jqXHR.status, text: ""}]
+		});
+
 	});
 	
   }
@@ -209,25 +272,34 @@ export const removeNote = (id, callback) => {
     dispatch({
       type: REMOVENOTE_REQUESTED
     });
-	
-    return $.ajax({
+    
+
+	return $.ajax({
+      dataType: "json",
 	  type: "GET",
-	  url: "/api/notes/delete",
+	  url: getUrl("/notes/delete"),
 	  data: {
 		id: id
 	  },
-	  success: function( result ) {
-
+    }).done(function( result ) {
+          
 		  dispatch({
 			type: REMOVENOTE,
-			data: JSON.parse(result),
+			data: result,
 		    id: id
 		  });
 		  
-		  callback(JSON.parse(result));
-		  
-	  }
+		  callback(result);
+
+	}).fail(function(jqXHR, textStatus) {
+        
+	    dispatch({
+	        type: SHOW_ERROR,
+			errors: [{code: jqXHR.status, text: ""}]
+		});
+
 	});
+    
 	
   }
 }
@@ -237,29 +309,37 @@ export const newNote = (title, text, tags, callback) => {
     dispatch({
       type: NEWNOTE_REQUESTED
     });
-	
-    return $.ajax({
-	  type: "POST",
-	  url: "/api/notes/new",
+    
+	return $.ajax({
+      dataType: "json",
+	  type: getMethod("POST"),
+	  url: getUrl("/notes/new"),
 	  data: {
 		title: title,
         text: text,
         tags: tags
 	  },
-	  success: function( result ) {
-
+    }).done(function( result ) {
+          
 		  dispatch({
 			type: NEWNOTE,
-			data: JSON.parse(result),
+			data: result,
             title: title,
             text: text,
             tags: tags
 		  });
 		  
-		  callback(JSON.parse(result));
-		  
-	  }
+		  callback(result);
+
+	}).fail(function(jqXHR, textStatus) {
+        
+	    dispatch({
+	        type: SHOW_ERROR,
+			errors: [{code: jqXHR.status, text: ""}]
+		});
+
 	});
+    
 	
   }
 }
@@ -270,30 +350,39 @@ export const updateNote = (id, title, text, tags, callback) => {
       type: UPDATENOTE_REQUESTED
     });
 	
-    return $.ajax({
-	  type: "POST",
-	  url: "/api/notes/update",
+    
+	return $.ajax({
+      dataType: "json",
+	  type: getMethod("POST"),
+	  url: getUrl("/notes/update"),
 	  data: {
         id: id,
 		title: title,
         text: text,
         tags: tags
 	  },
-	  success: function( result ) {
-
+    }).done(function( result ) {
+          
 		  dispatch({
 			type: UPDATENOTE,
-			data: JSON.parse(result),
+			data: result,
             id: id,
             title: title,
             text: text,
             tags: tags
 		  });
 		  
-		  callback(JSON.parse(result));
-		  
-	  }
+		  callback(result);
+
+	}).fail(function(jqXHR, textStatus) {
+        
+	    dispatch({
+	        type: SHOW_ERROR,
+			errors: [{code: jqXHR.status, text: ""}]
+		});
+
 	});
+
 	
   }
 }

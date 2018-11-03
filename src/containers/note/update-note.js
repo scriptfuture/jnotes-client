@@ -58,25 +58,34 @@ class UpdateNote extends Component {
 
 	  
 	  return (
-		  <div className="page-form">
+		  <div>
 		    <h1>Редактирование заметки ID: {note.id}</h1>
+            <br />
+            
+      
+            <div className="alert alert-success" role="alert">
+              Запись сохранена.
+            </div>
+            <div className="alert alert-danger" role="alert">
+              Произошла ошибка!
+            </div>
+            
 		  
 			<form onSubmit={(e) => this.handleSubmit(e, this)} action="#" method="post">
-				<p>
-					<label htmlFor="name">Заголовок</label><br />
-					<input type="text" id="title" name="title"  ref='title' defaultValue={note.title} />
-				</p>
-				<p>
-					<label htmlFor="name">Текст</label><br />
-				    <textarea rows="10" name="text"  ref='text' >{note.text}</textarea>
-				</p>
-				<p>
-					<label htmlFor="name">Теги (через запятую)</label><br />
-					<input type="text" id="tags" name="tags"  ref='tags' defaultValue={ts.join(", ")} />
-				</p>
+				<div className="form-group">
+					<label htmlFor="title">Заголовок</label><br />
+					<input type="text" id="title" name="title" className="form-control" ref='title' defaultValue={note.title} />
+				</div>
+				<div className="form-group">
+					<label htmlFor="text">Текст</label><br />
+				    <textarea rows="10" id="text" name="text" className="form-control" ref='text'>{note.text}</textarea>
+				</div>
+				<div className="form-group">
+					<label htmlFor="tags">Теги (через запятую)</label><br />
+					<input type="text" id="tags" name="tags" className="form-control" ref='tags' defaultValue={ts.join(", ")} />
+				</div>
 				
-				
-			    <p><button type="submit">Отправить</button></p>
+			    <p><button type="submit" className="btn btn-primary">Сохранить</button></p>
 			</form>
 			
 

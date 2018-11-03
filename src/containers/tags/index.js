@@ -76,7 +76,7 @@ class Tags extends Component {
 			   <h2>{t.letter}</h2>
 			   
 			  <ul> 
-			   {t.tags.map((tag) => <li key={tag.id}><a onClick={(e) => this.props.openTag(tag.id)}>{tag.name}</a></li>)}
+			   {t.tags.map((tag) => <li key={tag.id}><a href="" onClick={(e) =>  {e.preventDefault(); return this.props.openTag(tag.id)}}>{tag.name}</a></li>)}
 			  </ul>
 
 			</div>

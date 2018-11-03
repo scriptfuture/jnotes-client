@@ -76,12 +76,12 @@ class Note extends Component {
                 {note.text}
             
 			    <div className="pull">
-					<div className="pull-right"><a onClick={this.props.history.goBack}>&larr;назад</a></div>
+					<div className="pull-right"><a href="" onClick={(e) => {e.preventDefault(); return this.props.history.goBack()}}>&larr;назад</a></div>
 				   
 					<div className="pull-left">
 					
-					  <a onClick={(e) => this.update(note.id)}>Редактировать</a> &nbsp;
-					  <a onClick={(e) => this.remove(note.id)}>Удалить</a>
+					  <a href="" onClick={(e) => {e.preventDefault(); return this.update(note.id)}}>Редактировать</a> &nbsp;
+					  <a href="" onClick={(e) => {e.preventDefault(); return this.remove(note.id)}}>Удалить</a>
 					</div>
 				</div>
             </div>

@@ -9,18 +9,9 @@ const Home = props => (
   <div>
     <h1>Главная</h1>
 	
-	{/*
-<form action="" method="get">
-  <input name="s" placeholder="Искать здесь..." type="search" />
-  <button type="submit">Поиск</button>
-</form>
-
-	*/}
-	
-	
 
     <p>
-      <button onClick={() => props.changePage()}>
+      <button className="btn btn-primary btn-lg" onClick={() => props.changePage()}>
         Список заметок
       </button>
     </p>
