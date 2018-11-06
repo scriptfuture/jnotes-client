@@ -44,7 +44,11 @@ export class Errors extends Component {
 
   getErrors(){
       
-      return this.props.errors.map((err, index) => {
+      let errors = [];
+      
+      if(typeof this.props.errors !== "undefined") errors = this.props.errors;
+      
+      return errors.map((err, index) => {
           
          if(typeof err.code !== "undefined" && typeof this.httpErrors["e" + err.code] !== "undefined") {
               return (<div key={index}>{this.httpErrors["e" + err.code]}</div>);   

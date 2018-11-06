@@ -3,6 +3,9 @@ import { push } from 'connected-react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
+import { Preloader } from '../../components/preloader/preloader'
+import { Errors } from '../../components/errors/errors'
+
 import {
   getTagsAsync
 } from '../../modules/tags'
@@ -65,18 +68,14 @@ class Tags extends Component {
 		  for(let i in cols[numCol]) {
 			  if(typeof atags[cols[numCol][i]] !== "undefined") resultcol.push({"letter": cols[numCol][i], "tags": atags[cols[numCol][i]]});
 		  }
-		  
-		//console.log(atags);
-		
-		//console.log(resultcol)
-		
+
 	
 	  return resultcol.map((t) =>
 			<div className="letter"  key={t.letter}>
 			   <h2>{t.letter}</h2>
 			   
 			  <ul> 
-			   {t.tags.map((tag) => <li key={tag.id}><a href="" onClick={(e) =>  {e.preventDefault(); return this.props.openTag(tag.id)}}>{tag.name}</a></li>)}
+			   {t.tags.map((tag) => <li key={tag.id}><a href={"/tag/"+tag.id} onClick={(e) =>  {e.preventDefault(); return this.props.openTag(tag.id)}}>{tag.name}</a></li>)}
 			  </ul>
 
 			</div>
@@ -93,7 +92,14 @@ class Tags extends Component {
 	  
 	  return (
 		  <div>
+          
+            <Preloader isShow={this.props.isLoad} />
+          
 			<h1>Теги</h1>
+            
+            <Errors isError={this.props.isError} errors={this.props.errors}/>
+          
+		
 
   <div className="alphabet">
    <div className="col1">{this.getTagsColomn(0, atags)}</div>
@@ -120,7 +126,10 @@ class Tags extends Component {
 const mapStateToProps = ({ tags  }) => ({
 
   tags: tags.tags,
-  isTags: tags.isTags
+  isTags: tags.isTags,
+  isLoad: tags.isLoad,
+  isError: tags.isError,
+  errors: tags.errors
 })
 
 

@@ -248,3 +248,7 @@
 h1 {
     font-size: 28px;
 }
+
+.hide {
+    display: none;
+}

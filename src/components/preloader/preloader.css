@@ -37,6 +37,12 @@
     display: none;
 }
 
+.notepage-container .preloader-1 {
+ margin-top: -35px;
+ height: 35px;
+}
+
+
 @keyframes opacity-1 { 
   0% { 
     opacity: 1;

@@ -33,4 +33,4 @@ yarn build
 ```
 
 ## Скриншот
-![Скриншот](screenshot.png)
+![Скриншот](screenshot-v2.png)

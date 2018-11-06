@@ -3,6 +3,10 @@ import { push } from 'connected-react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
+import { Preloader } from '../../components/preloader/preloader'
+
+import { Errors } from '../../components/errors/errors'
+
 
 import {
   getNoteAsync,
@@ -12,6 +16,14 @@ import {
 
 class UpdateNote extends Component { 
  
+  constructor() { 
+       super();
+   
+       this.state = {
+           isSuccess: false
+       };
+
+  } 
  
   componentDidMount() { 
    
@@ -34,7 +46,16 @@ class UpdateNote extends Component {
         let id = null;
         if(typeof this.props.match.params.id !== "undefined") id = this.props.match.params.id;
 
-        if(id !== null) self.props.updateNote(id, title, text, tags, (res) => self.props.openNotes());
+        if(id !== null) { 
+        
+            self.setState({isSuccess: true});
+            
+
+            setTimeout(
+                () => self.props.updateNote(id, title, text, tags, (res) => self.props.openNotes()), 
+                2000
+            );
+        }
         
         return false;
   }
@@ -58,17 +79,18 @@ class UpdateNote extends Component {
 
 	  
 	  return (
-		  <div>
+		  <div className="page-form">
+            <Preloader isShow={this.props.isLoad} />
+          
 		    <h1>Редактирование заметки ID: {note.id}</h1>
             <br />
             
       
-            <div className="alert alert-success" role="alert">
-              Запись сохранена.
+            <div className={this.state.isSuccess?"alert alert-success":"alert alert-success hide"} role="alert">
+              Запись сохранена
             </div>
-            <div className="alert alert-danger" role="alert">
-              Произошла ошибка!
-            </div>
+            
+            <Errors isError={this.props.isError} errors={this.props.errors}/>
             
 		  
 			<form onSubmit={(e) => this.handleSubmit(e, this)} action="#" method="post">
@@ -78,7 +100,7 @@ class UpdateNote extends Component {
 				</div>
 				<div className="form-group">
 					<label htmlFor="text">Текст</label><br />
-				    <textarea rows="10" id="text" name="text" className="form-control" ref='text'>{note.text}</textarea>
+				    <textarea rows="10" id="text" name="text" className="form-control" ref='text'  defaultValue={note.text}></textarea>
 				</div>
 				<div className="form-group">
 					<label htmlFor="tags">Теги (через запятую)</label><br />
@@ -99,7 +121,10 @@ class UpdateNote extends Component {
 const mapStateToProps = ({ notes  }) => ({
    
     note: notes.note,
-    isNote: notes.isNote
+    isNote: notes.isNote,
+    isLoad: notes.isLoad,
+    isError: notes.isError,
+    errors: notes.errors
 })
 
 

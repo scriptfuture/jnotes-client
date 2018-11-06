@@ -4,6 +4,11 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 
+import { Preloader } from '../../components/preloader/preloader'
+
+import { Errors } from '../../components/errors/errors'
+
+
 import {
   newNote
 } from '../../modules/notes'
@@ -12,10 +17,16 @@ import {
 class NewNote extends Component { 
  
  
-  componentDidMount() { 
+  constructor() { 
+       super();
    
+       this.state = {
+           isSuccess: false
+       };
 
   } 
+  
+  componentDidMount() {} 
   
   handleSubmit(event, self) {
         event.preventDefault();
@@ -24,8 +35,14 @@ class NewNote extends Component {
         const title = self.refs.title.value;
         const text = self.refs.text.value;
         const tags = self.refs.tags.value;
+        
+        self.setState({isSuccess: true});
+        
 
-        self.props.newNote(title, text, tags, (res) => self.props.openNotes());
+        setTimeout(
+            () => self.props.newNote(title, text, tags, (res) => self.props.openNotes()), 
+            2000
+        );
         
         return false;
   }
@@ -37,16 +54,18 @@ class NewNote extends Component {
 	  
 	  return (
 		  <div className="page-form">
+            <Preloader isShow={this.props.isLoad} />
+          
 		    <h1>Новая заметка</h1>
             <br />
             
       
-            <div className="alert alert-success" role="alert">
-              Запись сохранена.
+            <div className={this.state.isSuccess?"alert alert-success":"alert alert-success hide"} role="alert">
+              Запись сохранена
             </div>
-            <div className="alert alert-danger" role="alert">
-              Произошла ошибка!
-            </div>
+            
+            <Errors isError={this.props.isError} errors={this.props.errors}/>
+            
 		  
 			<form onSubmit={(e) => this.handleSubmit(e, this)} action="#" method="post">
 				<div className="form-group">
@@ -75,7 +94,10 @@ class NewNote extends Component {
 
 
 const mapStateToProps = ({ notes  }) => ({
-
+    
+  isLoad: notes.isLoad,
+  isError: notes.isError,
+  errors: notes.errors
   
 })
 
@@ -85,7 +107,7 @@ const mapDispatchToProps = dispatch =>
     {
       newNote,
 
-	  openNotes:  () => push('/notes')
+	  openNotes: () => push('/notes'), 
     },
     dispatch
   )

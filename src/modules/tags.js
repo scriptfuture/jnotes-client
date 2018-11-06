@@ -14,7 +14,8 @@ const initialState = {
   tags: [],
   isTags: false,
   isLoad: false,
-  isError: false
+  isError: false,
+  errors: []
 }
 
 export default (state = initialState, action) => {
@@ -23,7 +24,7 @@ export default (state = initialState, action) => {
     case SHOW_ERROR:
       return {
         ...state,
-        errors: action.data,
+        errors: action.errors,
 		isError: true,
         isLoad: false
         
@@ -70,12 +71,14 @@ export const getTagsAsync = () => {
 	  data: {},
     }).done(function( result ) {
           
+
 		  dispatch({
 			type: GETTAGS,
 			data: result
 		  });
 
 	}).fail(function(jqXHR, textStatus) {
+        
         
 	    dispatch({
 	        type: SHOW_ERROR,

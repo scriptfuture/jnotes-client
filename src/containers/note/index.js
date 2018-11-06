@@ -3,6 +3,9 @@ import { push } from 'connected-react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
+import { Preloader } from '../../components/preloader/preloader'
+import { Errors } from '../../components/errors/errors'
+
 
 import {
   getNoteAsync,
@@ -61,7 +64,10 @@ class Note extends Component {
 
 	  
 	  
-	  return (
+	  return (<div className="notepage-container">
+            <Preloader isShow={this.props.isLoad} />
+            <Errors isError={this.props.isError} errors={this.props.errors}/>
+      
 		  <div className="notepage">
           
 			<div className="num">{note.id}</div>
@@ -80,7 +86,7 @@ class Note extends Component {
 				   
 					<div className="pull-left">
 					
-					  <a href="" onClick={(e) => {e.preventDefault(); return this.update(note.id)}}>Редактировать</a> &nbsp;
+					  <a href={"/update-note/"+note.id} onClick={(e) => {e.preventDefault(); return this.update(note.id)}}>Редактировать</a> &nbsp;
 					  <a href="" onClick={(e) => {e.preventDefault(); return this.remove(note.id)}}>Удалить</a>
 					</div>
 				</div>
@@ -88,7 +94,7 @@ class Note extends Component {
 
 			
 		  </div>
-		);
+		</div>);
   }
  
 } 
@@ -98,7 +104,10 @@ const mapStateToProps = ({ notes  }) => ({
 
   note: notes.note,
   isNote: notes.isNote,
-  isRemove: notes.isRemove
+  isRemove: notes.isRemove,
+  isLoad: notes.isLoad,
+  isError: notes.isError,
+  errors: notes.errors
   
 })
 

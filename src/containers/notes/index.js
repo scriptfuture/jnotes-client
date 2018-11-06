@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import { Preloader } from '../../components/preloader/preloader'
-
 import { Errors } from '../../components/errors/errors'
 
 import {
@@ -40,7 +39,7 @@ class Notes extends Component {
 	  return notes.map((note) =>
 			<div className="note" key={note.id}>
 			   <div className="num">{note.id}</div>
-			   <div className="header"><a href="" onClick={(e) => {e.preventDefault(); return this.props.openNote(note.id)}}>{note.title}</a></div>
+			   <div className="header"><a href={"/note/"+note.id} onClick={(e) => {e.preventDefault(); return this.props.openNote(note.id)}}>{note.title}</a></div>
 			
 			   <div className="text">{note.text}</div>
 			   <div className="tags">{this.getTags(note.tags)}</div>

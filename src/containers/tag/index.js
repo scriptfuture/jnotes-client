@@ -3,6 +3,9 @@ import { push } from 'connected-react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
+import { Preloader } from '../../components/preloader/preloader'
+import { Errors } from '../../components/errors/errors'
+
 import {
   changePageTag
 } from '../../modules/notes'
@@ -12,8 +15,7 @@ class Tag extends Component {
  
  
   componentDidMount() { 
-  
-     console.log(this.props.match.params);
+
   
      let page = 1;
      if(typeof this.props.match.params.page !== "undefined") page = this.props.match.params.page;
@@ -40,7 +42,7 @@ class Tag extends Component {
 	  return notes.map((note) =>
 			<div className="note" key={note.id}>
 			   <div className="num">{note.id}</div>
-			   <div className="header"><a href="" onClick={(e) => {e.preventDefault(); return this.props.openNote(note.id)}}>{note.title}</a></div>
+			   <div className="header"><a href={"/note/"+note.id} onClick={(e) => {e.preventDefault(); return this.props.openNote(note.id)}}>{note.title}</a></div>
 			
 			   <div className="text">{note.text}</div>
 			   <div className="tags">{this.getTags(note.tags)}</div>
@@ -88,8 +90,14 @@ class Tag extends Component {
 	  }
 	  
 	  return (
-		  <div>
+		  <div>     
+          
+            <Preloader isShow={this.props.isLoad} />
+          
 			<h1>Тег: {this.props.tag.name}</h1>
+            
+            <Errors isError={this.props.isError} errors={this.props.errors}/>
+          
 
 			<div className="notes">
 			
@@ -130,7 +138,10 @@ const mapStateToProps = ({ counter, notes  }) => ({
   isNotes: notes.isNotes,
   currentPage:  notes.currentPage,
   totalPages:  notes.totalPages,
-  tag: notes.tag
+  tag: notes.tag,
+  isLoad: notes.isLoad,
+  isError: notes.isError,
+  errors: notes.errors
 })
 
 

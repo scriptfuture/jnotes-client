@@ -175,7 +175,7 @@ export const getNoteAsync = (id) => {
 		id: id
 	  },
     }).done(function( result ) {
-          
+
 		  dispatch({
 			type: GETNOTE,
 			data: result
@@ -210,7 +210,7 @@ export const changePageNotes = (page) => {
 		page: page
       }
     }).done(function( result ) {
-          
+        
 		  dispatch({
 			type: CHANGEPAGE,
 			data: result,
@@ -320,7 +320,7 @@ export const newNote = (title, text, tags, callback) => {
         tags: tags
 	  },
     }).done(function( result ) {
-          
+
 		  dispatch({
 			type: NEWNOTE,
 			data: result,
@@ -330,6 +330,7 @@ export const newNote = (title, text, tags, callback) => {
 		  });
 		  
 		  callback(result);
+          
 
 	}).fail(function(jqXHR, textStatus) {
         
@@ -362,7 +363,8 @@ export const updateNote = (id, title, text, tags, callback) => {
         tags: tags
 	  },
     }).done(function( result ) {
-          
+
+    
 		  dispatch({
 			type: UPDATENOTE,
 			data: result,
@@ -373,6 +375,7 @@ export const updateNote = (id, title, text, tags, callback) => {
 		  });
 		  
 		  callback(result);
+
 
 	}).fail(function(jqXHR, textStatus) {
         
